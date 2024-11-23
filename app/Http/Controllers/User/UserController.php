@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -15,4 +16,5 @@ class UserController extends Controller
 
         return view('pages.user.index', compact('products'));
     }
+    
 }

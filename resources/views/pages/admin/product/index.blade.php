@@ -1,7 +1,5 @@
 @extends('layouts.admin.main')
-
 @section('title', 'Admin Product')
-
 @section('content')
 <div class="main-content">
     <section class="section">
@@ -15,7 +13,7 @@
             </div>
         </div>
 
-        <a href="#" class="btn btn-icon icon-left btn-primary">
+        <a href="{{ route('product.create') }}" class="btn btn-icon icon-left btn-primary">
             <i class="fas fa-plus"></i> Produk
         </a>
 
@@ -29,19 +27,17 @@
                         <th>Stok</th>
                         <th>Action</th>
                     </tr>
-                    @php
-                        $no = 1
-                    @endphp
+                    @php $no = 0 @endphp
                     @forelse ($products as $item)
                         <tr>
-                            <td>{{ $no++ }}</td>
+                            <td>{{ $no += 1 }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->price }} Points</td>
-                            <td>{{ $item->stock }}</td>
+                            <td>{{ $item->price }}</td>
                             <td>
-                                <a href="#" class="badge badge-info">Detail</a>
-                                <a href="#" class="badge badge-warning">Edit</a>
-                                <a href="#" class="badge badge-danger">Hapus</a>
+                                <a href="{{ route('product.detail',$item->id) }}" class="badge badge-info">Detail</a>
+                                <a href="{{ route('product.edit', $item->id) }}" class="badge badge-warning">Edit</a>
+                                <a href="{{ route('product.delete', $item->id) }}" class="badge badge-danger" data-confirm-delete="true">Hapus</a>
                             </td>
                         </tr>
                     @empty

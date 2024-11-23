@@ -21,6 +21,8 @@
                                 <h4>Total Pengguna</h4>
                             </div>
                             <div class="card-body">
+                                
+                                
                                 {{ $users }}
                             </div>
                         </div>
@@ -36,6 +38,7 @@
                             <h4>Total Produk</h4>
                         </div>
                         <div class="card-body">
+                            
                             {{ $products }}
                         </div>
                     </div>
