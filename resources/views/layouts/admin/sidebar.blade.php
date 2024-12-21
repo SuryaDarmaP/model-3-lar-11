@@ -1,10 +1,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="#">Teknik Informatika | RPL</a>
+            <a href="#">Teknik Informatika | KSI</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="#">RPL</a>
+            <a href="#">KSI</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Menu</li>
@@ -16,6 +16,11 @@
                 <a class="nav-link" href="{{ route('admin.product') }}"><i class="fas fa-box">
                     </i><span>Produk</span></a>
             </li>
-        </ul>
+            <li class="{{ Request::is('admin.distributor*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.distributor') }}">
+                    <i class="fas fa-truck"></i><span>Distributor</span>
+                </a>
+            </li>
+            </ul>
     </aside>
 </div>

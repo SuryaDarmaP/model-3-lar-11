@@ -5,6 +5,6 @@
         var CurrentYear = new Date().getFullYear();
         document.write(CurrentYear);
         </script>
-        , designed & developed by <a href="#" class="text-muted">RPL</a>
+        , designed & developed by <a href="#" class="text-muted">KSI</a>
     </div>
 </footer>

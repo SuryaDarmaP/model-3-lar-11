@@ -6,8 +6,13 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Distributor;
+use App\Http\Controllers\Admin\DistributorController;
+
+
 
 class ProductController extends Controller
 {
@@ -16,17 +21,26 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        confirmDelete('Hapus Data', 'Apakah anda yakin ingin menghapus data ini');
-        return view('pages.admin.product.index', compact('products'));
-    }
+        $data = DB:: table('distributors')
+            ->join('products', 'distributors.id', '=', 'products.id_distributor')
+            ->select('distributors.*', 'products.*')
+            ->get();
+
+        confirmDelete('Hapus Data!', 'Apakah anda yakin ingin menghapus data ini?');
+        
+        return view('pages.admin.product.index', compact('data'));
+        
+    }  
 
     /**
      * Menampilkan form untuk menambah produk.
      */
     public function create()
     {
-        return view('pages.admin.product.create');
+        $distributor = Distributor::all();
+
+        return view('pages.admin.product.create', compact('distributor'));
+
     }
 
     /**
@@ -34,8 +48,13 @@ class ProductController extends Controller
      */
     public function detail($id)
     {
-        $product = Product::findOrFail($id);
-        return view('pages.admin.product.detail', compact('product'));
+        $data = DB::table('distributors')
+                ->join('products', 'distributors.id', '=', 'products.id_distributor')
+                ->select('products.*', 'distributors.*')
+                ->where('products.id', '=', $id)
+                ->first();
+
+        return view('pages.admin.product.detail', compact('data'));
     }
 
     /**
@@ -45,11 +64,13 @@ class ProductController extends Controller
     {
         // Validasi input
         $validator = Validator::make($request->all(), [
+            'id_distributor' => 'required|numeric',
             'name' => 'required',
             'price' => 'numeric|required',
             'category' => 'required',
             'description' => 'required',
-            'image' => 'required|mimes:png,jpeg,jpg'
+            'image' => 'required|mimes:png,jpeg,jpg',
+            'discount' => 'nullable|numeric|min:0|max:100', // Discount validation
         ]);
 
         // Jika validasi gagal, tampilkan pesan error
@@ -66,11 +87,13 @@ class ProductController extends Controller
 
             // Menyimpan data produk baru ke database
             $product = Product::create([
+                'id_distributor' => $request->id_distributor,
                 'name' => $request->name,
                 'price' => $request->price,
                 'category' => $request->category,
                 'description' => $request->description,
-                'image' => $imageName
+                'image' => $imageName,
+                'discount' => $request->discount ?? 0, // Set discount or default to 0
             ]);
 
             // Jika produk berhasil ditambahkan, tampilkan pesan sukses
@@ -92,7 +115,9 @@ class ProductController extends Controller
     {
         // Menemukan produk berdasarkan ID
         $product = Product::findOrFail($id);
-        return view('pages.admin.product.edit', compact('product'));
+        $distributor = Distributor::all();
+
+        return view('pages.admin.product.edit', compact('product', 'distributor'));
     }
 
     /**
@@ -102,11 +127,13 @@ class ProductController extends Controller
     {
         // Validasi input
         $validator = Validator::make($request->all(), [
+            'id_distributor' => 'required|numeric',
             'name' => 'required',
             'price' => 'numeric|required',
             'category' => 'required',
             'description' => 'required',
-            'image' => 'nullable|mimes:png,jpeg,jpg'
+            'image' => 'nullable|mimes:png,jpeg,jpg',
+            'discount' => 'nullable|numeric|min:0|max:100', // Discount validation
         ]);
 
         // Jika validasi gagal, tampilkan pesan error
@@ -137,11 +164,13 @@ class ProductController extends Controller
 
         // Memperbarui data produk
         $product->update([
+            'id_distributor' => $request->id_distributor,
             'name' => $request->name,
             'price' => $request->price,
             'category' => $request->category,
             'description' => $request->description,
             'image' => $imageName,
+            'discount' => $request->discount ?? 0, // Update discount
         ]);
 
         // Menampilkan pesan berhasil atau gagal
@@ -177,5 +206,6 @@ class ProductController extends Controller
             Alert::error('Gagal!', 'Produk gagal dihapus!');
             return redirect()->back();
         }
+
     }
 }

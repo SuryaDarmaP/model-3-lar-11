@@ -24,16 +24,29 @@
                         <th>#</th>
                         <th>Nama Produk</th>
                         <th>Harga Produk</th>
-                        <th>Stok</th>
+                        <th>Diskon</th>
+                        <th>Harga Setelah Diskon</th>
+                        <th>Nama Distributor</th>
                         <th>Action</th>
                     </tr>
-                    @php $no = 0 @endphp
-                    @forelse ($products as $item)
+                
+                    @php $no = 0; @endphp
+                    @forelse ($data as $item)
                         <tr>
                             <td>{{ $no += 1 }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->price }} Points</td>
-                            <td>{{ $item->price }}</td>
+                            <td>{{ $item->discount ? $item->discount . '%' : 'Tidak ada diskon' }}
+                            </td>
+                            <td>
+                                @if($item->discount)
+                                    {{ $item->price - ($item->price * $item->discount / 100) }} Points
+                                @else
+                                    {{ $item->price }} Points
+                                @endif
+                            </td>
+
+                            <td>{{ $item->nama_distributor }}</td>
                             <td>
                                 <a href="{{ route('product.detail',$item->id) }}" class="badge badge-info">Detail</a>
                                 <a href="{{ route('product.edit', $item->id) }}" class="badge badge-warning">Edit</a>
@@ -42,7 +55,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">Data Produk Kosong</td>
+                            <td colspan="6" class="text-center">Data Produk Kosong</td>
                         </tr>
                     @endforelse
                 </table>

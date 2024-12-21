@@ -7,7 +7,7 @@
             <h1>Tambah Produk</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active">
-                    <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}"> Dashboard</a>
                 </div>
                 <div class="breadcrumb-item active">
                     <a href="{{ route('admin.product') }}">Produk</a>
@@ -19,54 +19,70 @@
         <a href="{{ route('admin.product') }}" class="btn btn-icon icon-left btn-warning"> Kembali</a>
 
         <div class="card mt-4">
-            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
+            <form action="{{ route('product.store') }}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <!-- Nama Produk -->
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_distributor">Nama Distributor</label>
+                                <select name="id_distributor" class="form-control">
+                                    @foreach ($distributor as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nama_distributor }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="name">Nama Produk</label>
                                 <input id="name" type="text" class="form-control" name="name" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <div class="invalid-feedback">
+                                    Kolom ini harus di isi!
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Harga Produk -->
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="price">Harga Produk (Point)</label>
                                 <input id="price" type="number" class="form-control" name="price" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <div class="invalid-feedback">
+                                    Kolom ini harus di isi!
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Kategori Produk -->
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="category">Kategori Produk</label>
                                 <input id="category" type="text" class="form-control" name="category" required="">
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <div class="invalid-feedback">
+                                    Kolom ini harus di isi!
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Deskripsi Produk -->
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="description">Deskripsi Produk</label>
-                                <textarea id="description" class="form-control" name="description" cols="30" rows="10" required=""></textarea>
-                                <div class="invalid-feedback">Isi berita harus di isi!</div>
+                                <textarea class="form-control" name="description" id="description" cols="30" rows="40" required=""></textarea>
+                                <div class="invalid-feedback">
+                                    Isi berita harus di isi!
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Upload Gambar -->
                         <div class="col-12">
                             <div class="form-group">
                                 <div class="custom-file">
-                                    <input id="customFile" type="file" class="custom-file-input" name="image" required="">
+                                    <input class="custom-file-input" name="image" id="customFile" type="file" required="">
                                     <label class="custom-file-label" for="customFile">Pilih Gambar</label>
                                 </div>
-                                <div class="invalid-feedback">Kolom ini harus di isi!</div>
+                                <div class="invalid-feedback">
+                                    Kolom ini harus di isi!
+                                </div>
                             </div>
                         </div>
                     </div>

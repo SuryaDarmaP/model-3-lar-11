@@ -84,6 +84,7 @@ class AuthController extends Controller
             Alert::error('Gagal!', 'Akun gagal dibuat, silahkan coba lagi!');
             return redirect()->back();
         }
+
     }
 
         

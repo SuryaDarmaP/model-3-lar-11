@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_distributor')->constrained('distributors')->onDelete('cascade');
             $table->string('name');
             $table->bigInteger('price');
+            $table->integer('discount')->default(0);
             $table->string('category');
             $table->text('description');
             $table->string('image');

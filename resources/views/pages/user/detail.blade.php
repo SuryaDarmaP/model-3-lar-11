@@ -34,7 +34,14 @@
                 <div class="col-lg-5 offset-lg-1">
                     <div class="s_product_text">
                         <h3>{{ $product->name }}</h3>
+                        @if($product->discount > 0)
+                        <h6><del>{{ $product->price }} Points</del></h6> 
                         <h2>{{ $product->price }} Points</h2>
+                        <h2>{{ $product->price - ($product->price * $product->discount / 100) }} Points</h2>
+                        @else
+                            <h2>{{ $product->price }} Points</h2>
+                        @endif
+
                         <ul class="list">
                             <li>
                                 <a class="active" href="#">
